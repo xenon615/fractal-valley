@@ -63,3 +63,6 @@ features = [
 "zstd",	
 "dynamic_linking",  #FOR DEBUG!!!
 ]
+
+#wasm-bindgen --no-typescript --target web  --out-dir E:\dev\sources\rust\bevy\fractal-valley/web   --out-name "fractal-valley"  ./target/wasm32-unknown-unknown/release/fractal-valley.wasm
+#cargo build --target wasm32-unknown-unknown --release

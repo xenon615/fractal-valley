@@ -12,9 +12,9 @@ pub const COLORS_COUNT: usize = 128;
 
 pub const VALLEY_SIZE: u32 = 8001;
 pub const TILES_COUNT: usize = 41;
-pub const PLAYER_START_CELL:(usize, usize) = (5514, 6511);
+pub const PLAYER_START_CELL:(usize, usize) = (1159, 3995);
 
-pub const CELL_SIZE: f32 = 1.;
+pub const CELL_SIZE: f32 = 4.;
 pub const CELL_HEIGHT: f32 = 0.1;
 pub const INITIAL_BOUNDS: ((f64, f64), (f64, f64)) = ((-2., 0.6), (-1.30, 1.30));
 
@@ -38,7 +38,7 @@ pub fn pos2cell(pos: Vec3) -> (usize, usize) {
 
 pub fn get_colorset() -> Vec<Color> {
     let light_step = 1. / COLORS_COUNT as f32;
-    let start_color = (240., 1.0, 0.5, 1.0);
+    let start_color = (0., 1.0, 0.5, 1.0);
     let huestep = (360. - start_color.0) / COLORS_COUNT as f32;
     (0..COLORS_COUNT).map(|i| {
         let i_f = i as f32;

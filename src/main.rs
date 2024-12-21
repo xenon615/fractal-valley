@@ -46,7 +46,7 @@ fn main() {
     .add_systems(Update, check_ready.run_if(in_state(GameState::Loading)))
     .add_plugins((
         PhysicsPlugins::default(),
-        PhysicsDebugPlugin::default(),
+        // PhysicsDebugPlugin::default(),
     ))
     
     .run();
