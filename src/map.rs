@@ -3,7 +3,7 @@ use bevy::{
 };
 
 use crate::{
-    camera::Cam, fractal::{calc_color, FractallBounds}, player::{Player, PlayerCell}, shared::{cell2pos, get_colorset, TILES_COUNT, VALLEY_SIZE}, GameState
+    camera::Cam, fractal::{calc_color, FractallBounds}, player::{Player, PlayerCell}, shared::{cell2xz, get_colorset, TILES_COUNT, VALLEY_SIZE}, GameState
 };
 
 pub struct MapPlugin;
@@ -148,7 +148,7 @@ fn on_click(
         );
         // println!("cell {:?}", cell);
         let mut pt = player_q.into_inner();
-        let pos = cell2pos(cell);
+        let pos = cell2xz(cell);
         pt.translation.x = pos.x;
         pt.translation.z = pos.z;
         pt.translation.y = 20.;

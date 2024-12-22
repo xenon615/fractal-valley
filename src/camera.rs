@@ -7,7 +7,7 @@ use bevy::{
 };
 use avian3d::schedule::PhysicsSet;
 use bevy::core_pipeline::Skybox;
-use crate::shared::{cell2pos, Focus, PLAYER_START_CELL};
+use crate::shared::{cell2xz, Focus, PLAYER_START_CELL};
 use crate::GameState;
 
 pub struct CameraPlugin;
@@ -39,10 +39,10 @@ pub struct Cam;
 
 #[derive(Resource)]
 pub struct CamFollowParams {
-    tranlation_bias: Vec3,
-    look_bias: (f32, f32, f32),
-    translation_speed: f32,
-    rotation_speed: f32
+    pub tranlation_bias: Vec3,
+    pub look_bias: (f32, f32, f32),
+    pub translation_speed: f32,
+    pub rotation_speed: f32
 }
 
 #[derive(Event)]
@@ -56,7 +56,7 @@ fn setup (
 ) {
     cmd.spawn((
         Camera3d::default(),
-        Transform::from_translation(cell2pos(PLAYER_START_CELL)),
+        Transform::from_translation(cell2xz(PLAYER_START_CELL)),
         Cam,
         Name::new("Camera"),
         Camera {

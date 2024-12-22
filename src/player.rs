@@ -1,3 +1,5 @@
+use std::default;
+
 use avian3d::{
     math::Vector, 
     prelude::*
@@ -12,10 +14,7 @@ use bevy::{
      }
 };
 use crate::{
-    animator::{AllAnimations, AnimationKey, CurrentAnimation}, 
-    camera::CamReset, 
-    shared::{cell2pos, pos2cell, Focus, PLAYER_START_CELL},
-    GameState
+    animator::{AllAnimations, AnimationKey, CurrentAnimation}, camera::CamReset, shared::{cell2xz, xz2cell, Focus, CELL_HEIGHT, PLAYER_START_CELL}, valley::Tile, GameState
 };
 
 
@@ -40,6 +39,7 @@ impl Plugin for PlayerPlugin {
             .run_if(on_event::<MouseMotion>)
         )
         .add_observer(movement)
+        .add_observer(adjust_y)
         ;
     }
 }
@@ -76,6 +76,16 @@ pub struct Grounded;
 #[component(storage = "SparseSet")]
 pub struct Running;
 
+#[derive(Event)]
+pub struct AdjustY;
+
+#[derive(PhysicsLayer, Clone, Copy, Debug, Default)]
+pub enum GameLayer {
+    #[default]
+    Other,
+    Player
+}
+
 
 // ---
 
@@ -92,7 +102,7 @@ fn startup(
     cmd.spawn((
         SceneRoot(asset.load(GltfAssetLabel::Scene(0).from_asset("models/player.glb"))),
         Transform::from_translation(
-            cell2pos(PLAYER_START_CELL)
+            cell2xz(PLAYER_START_CELL)
             .with_y(10.)
         )        
         .looking_to(Vec3::X, Vec3::Y),
@@ -109,12 +119,15 @@ fn startup(
         Restitution::ZERO.with_combine_rule(CoefficientCombine::Min),
         Friction::ZERO.with_combine_rule(CoefficientCombine::Max),
         GravityScale(1.5),
+        Name::new("Player")
      ))
      .with_child((
         PlayerChild,
         Transform::from_xyz(0., 1., 0.),
         ShapeCaster::new(caster_shape, Vec3::ZERO,  Quat::default(), Dir3::NEG_Y).with_max_distance(0.2).with_ignore_origin_penetration(true),
         collider,
+        CollisionLayers::new(GameLayer::Player, [LayerMask::ALL]),
+        Name::new("Player child")
      ))
      ;
 }
@@ -209,12 +222,14 @@ fn movement(
 fn change_cell(
     player_q: Single<&Transform, (Changed<Transform>, With<Player>)>,
     mut cell: ResMut<PlayerCell>,
+    // mut cmd: Commands
 ) {
     let Transform {translation: trans, ..} = player_q.into_inner();
-    let (cell_x, cell_z) = pos2cell(*trans);
+    let (cell_x, cell_z) = xz2cell(*trans);
     if cell_x != cell.0  || cell_z != cell.1 {
         cell.0 = cell_x;
         cell.1 = cell_z;
+        // cmd.trigger(AdjustY);
     }
 }
 
@@ -285,5 +300,36 @@ fn grounded_anim(
         c.set_scale(Vec3::splat(0.5), 0);
     } else {
         c.set_scale(Vec3::splat(1.0), 0);
+    }
+}
+
+// ---
+
+fn adjust_y(
+    _trg: Trigger<AdjustY>,
+    ps: Res<PlayerCell>,
+    p_q: Single<&mut Transform, With<Player>>,
+    raycast: SpatialQuery,
+    // m_q: Query<&Transform, (Without<Player>, With<Tile>)>
+    m_q: Query<&Transform, Without<Player>>,
+    qn: Query<&Name>
+) {
+    println!("here");
+    if let Some(hit) = raycast.cast_ray(
+        cell2xz((ps.0, ps.1)).with_y(1000.), 
+        Dir3::NEG_Y,
+        f32::MAX,
+        true, 
+        &SpatialQueryFilter::from_mask(GameLayer::Other)
+    ) {
+        println!("a_y");
+        if let Ok(m_t)  = m_q.get(hit.entity) {
+            if let Ok(name)  = qn.get(hit.entity) {
+                println!("name {:}", name);
+            }
+            let mut t = p_q.into_inner();
+            t.translation.y = m_t.translation.y + CELL_HEIGHT * m_t.scale.y * 0.5 + 1.;
+            println!("hit {}",  t.translation.y);
+        }
     }
 }

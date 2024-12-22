@@ -7,7 +7,6 @@ Key M - Map
 LMB Click (on Map) - Select area  
 LShift + LMB (on area) - Move To
 
-
 ### Credits
 Interstellar skybox   
 [Jockum Skoglund aka hipshot](https://www.zfight.com)

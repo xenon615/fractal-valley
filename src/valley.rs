@@ -5,8 +5,8 @@ use bevy::{
 
 use crate::{
     fractal::FractallCollors, 
-    player::Player, 
-    shared::{cell2pos, get_colorset, TilesCenter, CELL_HEIGHT, CELL_SIZE, PLAYER_START_CELL, TILES_COUNT}
+    player::{AdjustY, Player}, 
+    shared::{cell2xz, get_colorset, TilesCenter, CELL_HEIGHT, CELL_SIZE, PLAYER_START_CELL, TILES_COUNT}
 };
 
 
@@ -42,6 +42,12 @@ fn startup(
     .map(|c| {
         materials.add(
             StandardMaterial {
+                base_color: c,
+                alpha_mode: AlphaMode::Mask(0.1),
+                // AlphaMode::Multiply,
+                // AlphaToCoverage,
+                // ,
+                
                 emissive: LinearRgba::from(c),
                 ..default()
             })
@@ -54,8 +60,7 @@ fn startup(
     // ---
 
     let tile_mesh = meshes.add(Cuboid::from_size(Vec3::new(CELL_SIZE, CELL_HEIGHT, CELL_SIZE)));
-    let color_black = materials.add(Color::BLACK);
-    let center = cell2pos(PLAYER_START_CELL);
+    let center = cell2xz(PLAYER_START_CELL);
     let start = - ((TILES_COUNT - 1 ) as f32 *  CELL_SIZE * 0.5)   ;
     let mut pos_x = start;
     let mut pos_z = pos_x; 
@@ -64,13 +69,14 @@ fn startup(
         for j in 0 .. TILES_COUNT {
             cmd.spawn((
                 Mesh3d(tile_mesh.clone()),
-                MeshMaterial3d(color_black.clone()),
+                MeshMaterial3d(Handle::<StandardMaterial>::default()),
                 Transform::from_xyz(pos_x + center.x, 0. + center.y + CELL_HEIGHT / 2., pos_z + center.z),
                 Tile(i, j),
                 NotShadowCaster,
                 NotShadowReceiver,
                 Collider::cuboid(CELL_SIZE, CELL_HEIGHT, CELL_SIZE),
-                RigidBody::Static
+                RigidBody::Static,
+                Name::new("Tile")
             ));
             pos_z += CELL_SIZE;    
         }
@@ -96,15 +102,17 @@ fn repaint (
     colors: Res<FractallCollors>,
     mut tiles_q: Query<(&mut MeshMaterial3d<StandardMaterial>, &Tile, &mut Transform), Without<Player>>,
     colorset: Res<MaterialSet>,
-    tc: Res<TilesCenter>
+    tc: Res<TilesCenter>,
+    mut cmd: Commands
 ) {
+
     let middle = TILES_COUNT / 2;
 
     let (_, _, t,) = tiles_q.iter().find(|(_, tp, _)| {
         tp.0 == middle && tp.1 == middle
     }).unwrap();
 
-    let step = cell2pos((tc.0, tc.1)) - t.translation.with_y(0.);
+    let step = cell2xz((tc.0, tc.1)) - t.translation.with_y(0.);
     // println!("step : {:?}", step);
     for i in 0..TILES_COUNT{
         for j in 0..TILES_COUNT {
@@ -114,11 +122,14 @@ fn repaint (
                 let color_index = colors.0[i][j] as usize;
                 t_mat.0 =  colorset.0[color_index].clone();
                 t_trans.translation += step;
-                t_trans.scale.y = 0.5 * (color_index + 1) as f32;
-                t_trans.translation.y = t_trans.scale.y * CELL_HEIGHT / 2.;
+                // t_trans.scale.y = 0.5 * (color_index + 1) as f32;
+                // t_trans.translation.y = t_trans.scale.y * CELL_HEIGHT / 2.;
+                t_trans.translation.y = color_index as f32 * 0.5;
+                
             }
         }
     }
+    cmd.trigger(AdjustY);
 
 }
 
@@ -127,7 +138,6 @@ fn repaint (
 #[allow(dead_code)]
 fn show_gizmos(
     pp: Single<&Transform, With<Player>>,
-
     mut gizmos: Gizmos
 ) {
     let t = pp.into_inner();
