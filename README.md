@@ -5,7 +5,7 @@ The idea was to take the Mandelbrot fractal and try to do something with it
 ## Controls
 Key M - Map  
 LMB Click (on Map) - Select area  
-Shift + LMB (on area) - Move To
+LShift + LMB (on area) - Move To
 
 
 ### Credits
