@@ -148,6 +148,6 @@ fn cam_reset(
     mut cp: ResMut<CamFollowParams>
 ) {
     cp.tranlation_bias.x = 0.;
-    // cp.tranlation_bias.z = cp.tranlation_bias.z.abs().max(10.);
+    cp.tranlation_bias.z = cp.tranlation_bias.z.abs();
     // cp.tranlation_bias.y = 2.;
 }

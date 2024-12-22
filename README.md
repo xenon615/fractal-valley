@@ -1,6 +1,12 @@
 # Fractal Valley
-### Absolutelly ueseless at this point project which is an attempt to explore some of the possibilities of bevi 0.15.  
+## Description
+Absolutelly ueseless at this point project which is an attempt to explore some of the possibilities of bevi 0.15.  
 The idea was to take the Mandelbrot fractal and try to do something with it
+## Controls
+Key M - Map  
+LMB Click (on Map) - Select area 
+Shift + LMB (on area) - Move To
+
 
 ### Credits
 Interstellar skybox   

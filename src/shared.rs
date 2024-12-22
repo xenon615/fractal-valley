@@ -41,7 +41,11 @@ pub fn get_colorset() -> Vec<Color> {
     let start_color = (0., 1.0, 0.5, 1.0);
     let huestep = (360. - start_color.0) / COLORS_COUNT as f32;
     (0..COLORS_COUNT).map(|i| {
-        let i_f = i as f32;
-        Color::hsla(start_color.0 + huestep * i_f, start_color.1, start_color.2 + light_step * i_f, start_color.3)
+        if i == 0 {
+            Color::hsla(0., 0., 0., 1.)    
+        } else {
+            let i_f = i as f32;
+            Color::hsla(start_color.0 + huestep * i_f, start_color.1, start_color.2 + light_step * i_f, start_color.3)
+        }
     }).collect()
 }

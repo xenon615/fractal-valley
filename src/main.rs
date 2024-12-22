@@ -2,7 +2,7 @@
 use bevy::prelude::*;
 
 use avian3d::{
-    prelude::PhysicsDebugPlugin, 
+    // prelude::PhysicsDebugPlugin, 
     PhysicsPlugins
 };
 mod shared;
