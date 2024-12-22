@@ -1,6 +1,6 @@
 # Fractal Valley
 ## Description
-Absolutelly ueseless at this point project which is an attempt to explore some of the possibilities of bevi 0.15.  
+Absolutelly ueseless at this point project which is an attempt to explore some of the possibilities of Bevy Engine v0.15.  
 The idea was to take the Mandelbrot fractal and try to do something with it
 ## Controls
 Key M - Map  
