@@ -7,6 +7,13 @@ Key M - Map
 LMB Click (on Map) - Select area  
 LShift + LMB (on area) - Move To
 
+## Images
+
+![image1](img/image1.png)
+
+![image2](img/image2.png)
+
+
 ### Credits
 Interstellar skybox   
 [Jockum Skoglund aka hipshot](https://www.zfight.com)
