@@ -1,4 +1,4 @@
-use avian3d::prelude::{Collider, RigidBody};
+use avian3d::prelude::{Collider, RigidBody, CollisionLayers, LayerMask};
 use bevy::{
     pbr::{NotShadowCaster, NotShadowReceiver}, prelude::*
 };
@@ -6,7 +6,7 @@ use bevy::{
 use crate::{
     fractal::FractallCollors, 
     player::{AdjustY, Player}, 
-    shared::{cell2xz, get_colorset, TilesCenter, CELL_HEIGHT, CELL_SIZE, PLAYER_START_CELL, TILES_COUNT}
+    shared::{cell2xz, get_colorset, TilesCenter, CELL_HEIGHT, CELL_SIZE, PLAYER_START_CELL, TILES_COUNT, CoLayer}
 };
 
 
@@ -76,6 +76,7 @@ fn startup(
                 NotShadowReceiver,
                 Collider::cuboid(CELL_SIZE, CELL_HEIGHT, CELL_SIZE),
                 RigidBody::Static,
+                CollisionLayers::new(CoLayer::Tile, [LayerMask::ALL]),
                 Name::new("Tile")
             ));
             pos_z += CELL_SIZE;    
@@ -97,6 +98,42 @@ fn startup(
 }
 
 // ---
+
+// fn repaint (
+//     colors: Res<FractallCollors>,
+//     mut tiles_q: Query<(&mut MeshMaterial3d<StandardMaterial>, &Tile, &mut Transform), Without<Player>>,
+//     colorset: Res<MaterialSet>,
+//     tc: Res<TilesCenter>,
+//     mut cmd: Commands
+// ) {
+
+//     let middle = TILES_COUNT / 2;
+
+//     let (_, _, t,) = tiles_q.iter().find(|(_, tp, _)| {
+//         tp.0 == middle && tp.1 == middle
+//     }).unwrap();
+
+//     let step = cell2xz((tc.0, tc.1)) - t.translation.with_y(0.);
+//     // println!("step : {:?}", step);
+//     for i in 0..TILES_COUNT{
+//         for j in 0..TILES_COUNT {
+//             if let Some((mut t_mat, _ , mut t_trans)) = tiles_q.iter_mut().find(|(_, tp, _)| {
+//                 tp.0 == i && tp.1 == j
+//             }) {
+//                 let color_index = colors.0[i][j] as usize;
+//                 t_mat.0 =  colorset.0[color_index].clone();
+//                 t_trans.translation += step;
+//                 // t_trans.scale.y = 0.5 * (color_index + 1) as f32;
+//                 // t_trans.translation.y = t_trans.scale.y * CELL_HEIGHT / 2.;
+//                 t_trans.translation.y = color_index as f32 * 0.5;
+                
+//             }
+//         }
+//     }
+//     cmd.trigger(AdjustY);
+
+// }
+
 
 fn repaint (
     colors: Res<FractallCollors>,
@@ -129,7 +166,9 @@ fn repaint (
             }
         }
     }
-    cmd.trigger(AdjustY);
+    let m_y = colors.0[middle][middle];
+
+    cmd.trigger(AdjustY(m_y as f32 * 0.5 + CELL_HEIGHT / 2. + 2.));
 
 }
 

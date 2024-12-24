@@ -1,11 +1,13 @@
 use bevy::input::mouse::MouseButtonInput;
-use bevy::math::VectorSpace;
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 // use bevy_rapier3d::prelude::*;
 use avian3d::prelude::*;
 
-use crate::camera::{Cam, CamFollowParams};
+use crate::camera::{
+    Cam, 
+    // CamFollowParams
+};
 use crate::player::Player;
 use crate::shared::CELL_HEIGHT;
 
@@ -24,9 +26,9 @@ fn mouse_click(
     buttons: Res<ButtonInput<MouseButton>>,
     keys: Res<ButtonInput<KeyCode>>,
     raycast_q: SpatialQuery,
-    p_q: Single<(&mut Transform, &mut LinearVelocity), With<Player>>,
+    p_q: Single<&mut Transform, With<Player>>,
     m_q: Query<&Transform, Without<Player>>,
-    mut cp: ResMut<CamFollowParams>
+    // mut cp: ResMut<CamFollowParams>
 ) {
     let (camera, camera_gtransform) = q_camera.into_inner();
 
@@ -48,11 +50,8 @@ fn mouse_click(
             &SpatialQueryFilter::default()
         ) {
             if let Ok(m_t)  = m_q.get(hit.entity) {
-                // p_q.into_inner().translation = m_t.translation.with_y(m_t.translation.y * 2.5);
-                let (mut t, mut v) = p_q.into_inner();
+                let mut t = p_q.into_inner();
                 t.translation = m_t.translation.with_y(m_t.translation.y + CELL_HEIGHT * m_t.scale.y * 0.5 + 1.);
-                // cp.tranlation_bias.clamp(10., 11.);
-                v.y = 0.;
             }
         }
     }

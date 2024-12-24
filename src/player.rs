@@ -1,5 +1,3 @@
-use std::default;
-
 use avian3d::{
     math::Vector, 
     prelude::*
@@ -14,7 +12,10 @@ use bevy::{
      }
 };
 use crate::{
-    animator::{AllAnimations, AnimationKey, CurrentAnimation}, camera::CamReset, shared::{cell2xz, xz2cell, Focus, CELL_HEIGHT, PLAYER_START_CELL}, valley::Tile, GameState
+    animator::{AllAnimations, AnimationKey, CurrentAnimation}, camera::CamReset,
+    shared::{cell2xz, xz2cell, Focus, PLAYER_START_CELL, CoLayer},
+    GameState,
+
 };
 
 
@@ -77,15 +78,7 @@ pub struct Grounded;
 pub struct Running;
 
 #[derive(Event)]
-pub struct AdjustY;
-
-#[derive(PhysicsLayer, Clone, Copy, Debug, Default)]
-pub enum GameLayer {
-    #[default]
-    Other,
-    Player
-}
-
+pub struct AdjustY(pub f32);
 
 // ---
 
@@ -103,7 +96,7 @@ fn startup(
         SceneRoot(asset.load(GltfAssetLabel::Scene(0).from_asset("models/player.glb"))),
         Transform::from_translation(
             cell2xz(PLAYER_START_CELL)
-            .with_y(10.)
+            .with_y(1.)
         )        
         .looking_to(Vec3::X, Vec3::Y),
         Player,
@@ -126,7 +119,7 @@ fn startup(
         Transform::from_xyz(0., 1., 0.),
         ShapeCaster::new(caster_shape, Vec3::ZERO,  Quat::default(), Dir3::NEG_Y).with_max_distance(0.2).with_ignore_origin_penetration(true),
         collider,
-        CollisionLayers::new(GameLayer::Player, [LayerMask::ALL]),
+        CollisionLayers::new(CoLayer::Player, [LayerMask::ALL]),
         Name::new("Player child")
      ))
      ;
@@ -306,30 +299,9 @@ fn grounded_anim(
 // ---
 
 fn adjust_y(
-    _trg: Trigger<AdjustY>,
-    ps: Res<PlayerCell>,
-    p_q: Single<&mut Transform, With<Player>>,
-    raycast: SpatialQuery,
-    // m_q: Query<&Transform, (Without<Player>, With<Tile>)>
-    m_q: Query<&Transform, Without<Player>>,
-    qn: Query<&Name>
+    trg: Trigger<AdjustY>,
+    p_q: Single<&mut Transform, With<Player>>
 ) {
-    println!("here");
-    if let Some(hit) = raycast.cast_ray(
-        cell2xz((ps.0, ps.1)).with_y(1000.), 
-        Dir3::NEG_Y,
-        f32::MAX,
-        true, 
-        &SpatialQueryFilter::from_mask(GameLayer::Other)
-    ) {
-        println!("a_y");
-        if let Ok(m_t)  = m_q.get(hit.entity) {
-            if let Ok(name)  = qn.get(hit.entity) {
-                println!("name {:}", name);
-            }
-            let mut t = p_q.into_inner();
-            t.translation.y = m_t.translation.y + CELL_HEIGHT * m_t.scale.y * 0.5 + 1.;
-            println!("hit {}",  t.translation.y);
-        }
-    }
+    p_q.into_inner().translation.y = trg.event().0;
 }
+

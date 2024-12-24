@@ -66,7 +66,7 @@ fn startup(
     let colorset = get_colorset();
     for i in 0 .. w_width {
         for j in 0 .. w_height {
-            image.set_color_at(i, j, colorset[calc_color(x, y)] ).expect("Error");
+            image.set_color_at(i, j, colorset[calc_color(x, y)].with_alpha(1.)).expect("Error");
             y += step_y; 
         }
         x += step_x;

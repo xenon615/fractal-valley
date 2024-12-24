@@ -1,6 +1,7 @@
 use std::usize;
 
 use bevy::prelude::*;
+use avian3d::prelude::*; 
 
 #[derive(Component)]
 pub struct Focus;
@@ -13,12 +14,19 @@ pub const COLORS_COUNT: usize = 128;
 pub const VALLEY_SIZE: u32 = 8001;
 pub const TILES_COUNT: usize = 41;
 // pub const PLAYER_START_CELL:(usize, usize) = (3317, 3046);
-pub const PLAYER_START_CELL:(usize, usize) = (200, 200);
+pub const PLAYER_START_CELL:(usize, usize) = (4406, 6038);
 
 pub const CELL_SIZE: f32 = 4.;
 pub const CELL_HEIGHT: f32 = 0.5;
 pub const INITIAL_BOUNDS: ((f64, f64), (f64, f64)) = ((-2., 0.6), (-1.30, 1.30));
 
+#[derive(PhysicsLayer, Clone, Copy, Debug, Default)]
+pub enum CoLayer {
+    #[default]
+    Other,
+    Player,
+    Tile
+}
 
 // ---
 
