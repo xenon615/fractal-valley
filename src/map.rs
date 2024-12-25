@@ -146,12 +146,10 @@ fn on_click(
             (VALLEY_SIZE as f32 * v.x).round() as usize, 
             (VALLEY_SIZE as f32 * v.y).round() as usize
         );
-        // println!("cell {:?}", cell);
         let mut pt = player_q.into_inner();
         let pos = cell2xz(cell);
         pt.translation.x = pos.x;
         pt.translation.z = pos.z;
-        pt.translation.y = 20.;
         let mut cam_t = cam_q.into_inner();
         cam_t.translation.x = pos.x;
         cam_t.translation.z = pos.z;
