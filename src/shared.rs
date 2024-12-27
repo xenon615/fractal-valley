@@ -14,7 +14,7 @@ pub const COLORS_COUNT: usize = 128;
 pub const VALLEY_SIZE: u32 = 8001;
 pub const TILES_COUNT: usize = 41;
 // pub const PLAYER_START_CELL:(usize, usize) = (3317, 3046);
-pub const PLAYER_START_CELL:(usize, usize) = (4406, 6038);
+pub const PLAYER_START_CELL:(usize, usize) = (2309, 2983);
 
 pub const CELL_SIZE: f32 = 4.;
 pub const CELL_HEIGHT: f32 = 0.5;

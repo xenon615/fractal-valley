@@ -109,7 +109,7 @@ fn mouse_drag (
     mut cam_param: ResMut<CamFollowParams>,
     time: Res<Time>,
 ) {
-    let total_delta :Vec2 =  er.read().map(|e|  e.delta).sum();
+    let total_delta :Vec2 = er.read().map(|e|  e.delta).sum();
     if total_delta == Vec2::ZERO {
         return;
     }
