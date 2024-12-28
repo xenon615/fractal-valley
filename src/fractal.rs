@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     player::PlayerCell, 
-    shared::{TilesCenter, INITIAL_BOUNDS, TILES_COUNT, VALLEY_SIZE, COLORS_COUNT}
+    shared::{TilesCenter, INITIAL_BOUNDS, TILES_COUNT, VALLEY_SIZE, MAX_ITER}
 };
 
 pub struct FractalPlugin;
@@ -131,12 +131,12 @@ pub fn calc_color(x : f64, y : f64) -> usize {
          return 0;
     }
 
-    while  (lx * lx + ly * ly  < 4.0) && (n < COLORS_COUNT) {
+    while  (lx * lx + ly * ly  < 4.0) && (n < MAX_ITER) {
         let lxt = lx * lx - ly * ly + x;
         ly = 2. * lx * ly + y;
         lx = lxt;
         n += 1;
     }
 
-    if n == COLORS_COUNT {0} else {n}
+    if n == MAX_ITER {0} else {n}
 }

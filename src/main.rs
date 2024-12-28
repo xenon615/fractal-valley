@@ -1,5 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use bevy::prelude::*;
+use  bevy::{
+    prelude::*,
+    window::WindowResolution
+};
 
 use avian3d::{
     // prelude::PhysicsDebugPlugin, 
@@ -32,7 +35,21 @@ fn main() {
     App::new()
     .insert_resource(ClearColor(Color::BLACK))
     .add_plugins((
-        DefaultPlugins,
+        DefaultPlugins
+        .set(
+            WindowPlugin {
+                primary_window : Some(Window {
+                    canvas: Some("#game-canvas".into()),
+                    // resolution : WindowResolution::new(1400., 900.),
+                    // mode: WindowMode::BorderlessFullscreen,
+                    position: WindowPosition::Centered(MonitorSelection::Primary),
+                    ..default()
+                }),
+                ..default()
+            },
+        )
+
+        ,
         camera::CameraPlugin,
         valley::ValleyPlugin,
         player::PlayerPlugin,

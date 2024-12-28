@@ -11,7 +11,7 @@ opt-level = 3
 
 [profile.release]
 codegen-units = 1
-# opt-level = 'z' # wasm less size 
+opt-level = 'z' # wasm less size 
 
 
 [dependencies]
@@ -59,11 +59,11 @@ features = [
 # "sysinfo_plugin",	#	Enables system information diagnostic plugin
 "tonemapping_luts",	#	Include tonemapping Look Up Tables KTX2 files. If everything is pink, you need to enable this feature or change the Tonemapping method for your Camera2d or Camera3d.
 # "vorbis",	#OGG/VORBIS audio format support
-# "webgl2",	#Enable some limitations to be able to use WebGL2. Please refer to the WebGL2 and WebGPU section of the examples README for more information on how to run Wasm builds with WebGPU.
+"webgl2",	#Enable some limitations to be able to use WebGL2. Please refer to the WebGL2 and WebGPU section of the examples README for more information on how to run Wasm builds with WebGPU.
 # "x11	",	#X11 display server support
 "zstd",	
 "dynamic_linking",  #FOR DEBUG!!!
 ]
 
-#wasm-bindgen --no-typescript --target web  --out-dir E:\dev\sources\rust\bevy\fractal-valley/web   --out-name "fractal-valley"  ./target/wasm32-unknown-unknown/release/fractal-valley.wasm
+# wasm-bindgen --no-typescript --target web  --out-dir E:\dev\sources\rust\bevy\fractal-valley/web   --out-name "fractal-valley"  ./target/wasm32-unknown-unknown/release/fractal-valley.wasm
 #cargo build --target wasm32-unknown-unknown --release

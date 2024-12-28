@@ -127,7 +127,7 @@ fn repaint (
                 t_trans.translation += step;
                 // t_trans.scale.y = 0.5 * (color_index + 1) as f32;
                 // t_trans.translation.y = t_trans.scale.y * CELL_HEIGHT / 2.;
-                t_trans.translation.y = color_index as f32 * 0.1;
+                t_trans.translation.y = color_index as f32 * 0.5;
                 
             }
         }

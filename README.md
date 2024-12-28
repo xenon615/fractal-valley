@@ -1,16 +1,16 @@
 # Fractal Valley
 ## Description
-Absolutelly ueseless at this point project which is an attempt to explore some of the possibilities of Bevy Engine v0.15.  
-The idea was to take the Mandelbrot fractal and try to do something with it
+Absolutelly ueseless project.  
+I just wanted to jump around the fractal  
 ## Controls
-Key M -Toggle Map  
+Key M -Toggle Map / Area  
 ### Map Mode  
 LMB : Select area  
 RMB : Zoom In
 LShift + RMB : Zoom Out  
 
 ### Area Mode
-LShift + LMB : Move To Cell 
+LShift + LMB : Jump To Cell 
 RMB Drag : Rotate character  
 LMB Drag : Rotate camera  
 Wheel : camera distance  

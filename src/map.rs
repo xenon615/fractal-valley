@@ -233,31 +233,6 @@ fn toggle_map(
 
 // ---
 
-// fn on_click(
-//     click: Trigger<Pointer<Click>>,
-//     map_q: Single<&RelativeCursorPosition, With<ValleyMap>>,
-//     player_q: Single<&mut Transform, With<Player>>,
-//     mut next: ResMut<NextState<GameState>>,
-//     cam_q: Single<&mut Transform, (With<Cam>, Without<Player>)>
-// ) {
-//     let rcp = map_q.into_inner();
-//     if let Some(v) = rcp.normalized {
-//         let cell = (
-//             (VALLEY_SIZE as f32 * v.x).round() as usize, 
-//             (VALLEY_SIZE as f32 * v.y).round() as usize
-//         );
-//         let mut pt = player_q.into_inner();
-//         let pos = cell2xz(cell);
-//         pt.translation.x = pos.x;
-//         pt.translation.z = pos.z;
-//         let mut cam_t = cam_q.into_inner();
-//         cam_t.translation.x = pos.x;
-//         cam_t.translation.z = pos.z;
-//         next.set(GameState::Game)    
-//     }
-
-// }
-
 fn on_click(
     click: Trigger<Pointer<Click>>,
     map_q: Single<&RelativeCursorPosition, With<ValleyMap>>,
