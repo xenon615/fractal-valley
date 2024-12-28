@@ -5,8 +5,37 @@
 <head>
 <body style="margin: 0px;">
     <h2>Fractal Valley</h2>
+    <div class="header">
+        <div class="descr">
+            Absolutelly goofy project.  
+            I just wanted to jump around the fractal
+        </div>
+        <div class="controls">
+            <div class="inline-label">Key M - Toggle Map/Area</div>
+            <div>
+                <span class="inline-label">Map Mode :</span>
+                <span class="inline-label2">LMB: </span>Select area,
+                <span class="inline-label2">RMB: </span>Zoom In, 
+                <span class="inline-label2">LShift + RMB :</span>Zoom Out
+            </div>
+
+            <div>
+                <span class="inline-label">Area Mode: </span>
+                <span class="inline-label2">LShift + LMB :</span> Jump To Cell, 
+                <span class="inline-label2">RMB Drag : </span>Rotate character, 
+                <span class="inline-label2">LMB Drag :</span> Rotate camera,
+                <span class="inline-label2">Wheel :</span> Camera distance
+            </div>
+            
+            
+        </div>
+
+    </div>    
+
+  
+
     <div id="game-container">
-        <canvas id="siege-canvas" width="1280" height="720"></canvas>
+        <canvas id="game-canvas" width="1280" height="720"></canvas>
     </div>
     <script type="module">
         import init from './fractal-valley.js'
