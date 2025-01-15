@@ -1,7 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use  bevy::{
     prelude::*,
-    window::WindowResolution
+    // window::WindowResolution
 };
 
 use avian3d::{

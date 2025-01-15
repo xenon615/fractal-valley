@@ -25,11 +25,11 @@ impl Plugin for PlayerPlugin {
         app
         .init_resource::<PlayerCell>()
         .add_systems(Startup, startup)
-        .add_systems(Update, change_cell)
-        .add_systems(OnEnter(GameState::Game), enter_game)
+        .add_systems(Update, change_cell.never_param_warn())
+        .add_systems(OnEnter(GameState::Game), enter_game.never_param_warn())
         .add_systems(Update, (
             keyboard_input,
-            switch_anim,
+            switch_anim.never_param_warn(),
             dump_xz,
             check_grounded,
             grounded_anim.run_if(condition_changed(any_with_component::<Grounded>))

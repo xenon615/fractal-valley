@@ -44,9 +44,8 @@ fn startup(
             StandardMaterial {
                 base_color: c,
                 alpha_mode: AlphaMode::Mask(0.1),
-                // AlphaMode::Multiply,
-                // AlphaToCoverage,
-                // ,
+                // alpha_mode: AlphaMode::Multiply,
+                // alpha_mode: AlphaMode::Add,
                 
                 emissive: LinearRgba::from(c),
                 ..default()

@@ -21,7 +21,7 @@ avian3d = "0.2"
 # bevy_panorbit_camera= "0.21.1"
 # bevy-inspector-egui= "0.27"
 [dependencies.bevy]
-version = "0.15.0"
+version = "0.15.1"
 # git = "https://github.com/bevyengine/bevy.git"
 default-features = false
 features = [
@@ -62,7 +62,7 @@ features = [
 "webgl2",	#Enable some limitations to be able to use WebGL2. Please refer to the WebGL2 and WebGPU section of the examples README for more information on how to run Wasm builds with WebGPU.
 # "x11	",	#X11 display server support
 "zstd",	
-"dynamic_linking",  #FOR DEBUG!!!
+# "dynamic_linking",  #FOR DEBUG!!!
 ]
 
 # wasm-bindgen --no-typescript --target web  --out-dir E:\dev\sources\rust\bevy\fractal-valley/web   --out-name "fractal-valley"  ./target/wasm32-unknown-unknown/release/fractal-valley.wasm

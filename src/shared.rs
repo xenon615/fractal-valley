@@ -90,7 +90,7 @@ pub fn get_colorset() -> Vec<Color> {
     (0..MAX_ITER).map(|i|  {
         let color = colors[i % colors.len()];
         let j = i / colors.len();
-        Color::hsla(color.0, color.1, if i == 0 {0.} else {0.4 + j as f32 * lightstep}, 0.1)
+        Color::hsla(color.0, color.1, if i == 0 {0.} else {0.4 + j as f32 * lightstep}, 1.)
     }).collect()
 }
 
