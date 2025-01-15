@@ -15,14 +15,11 @@ opt-level = 'z' # wasm less size
 
 
 [dependencies]
-# avian3d = { git = "https://github.com/Jondolf/avian", branch = "main" }
 avian3d = "0.2"
-# bevy = "0.15"
 # bevy_panorbit_camera= "0.21.1"
 # bevy-inspector-egui= "0.27"
 [dependencies.bevy]
 version = "0.15.1"
-# git = "https://github.com/bevyengine/bevy.git"
 default-features = false
 features = [
 # "android-game-activity",	#Android GameActivity support. Default, choose between this and android-native-activity.
